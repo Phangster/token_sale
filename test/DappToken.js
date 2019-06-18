@@ -8,13 +8,13 @@ contract('DappToken', function(accounts) {
       tokenInstance = instance;
       return tokenInstance.name();
     }).then(function(name) {
-      assert.equal(name, 'DApp Token', 'has the correct name');
+      assert.equal(name, 'Grid Token', 'has the correct name');
       return tokenInstance.symbol();
     }).then(function(symbol) {
-      assert.equal(symbol, 'DAPP', 'has the correct symbol');
+      assert.equal(symbol, 'GRD', 'has the correct symbol');
       return tokenInstance.standard();
     }).then(function(standard) {
-      assert.equal(standard, 'DApp Token v1.0', 'has the correct standard');
+      assert.equal(standard, 'Grid Token v1.0', 'has the correct standard');
     });
   })
 
@@ -30,11 +30,14 @@ contract('DappToken', function(accounts) {
     });
   });
 
-  it('transfers token ownership', function() {
+  //Exception if account doesn't have enough
+  //Return a boolean
+  //Transfer Event
+  it('transfers token ownership', async function() {
     return DappToken.deployed().then(function(instance) {
       tokenInstance = instance;
       // Test `require` statement first by transferring something larger than the sender's balance
-      return tokenInstance.transfer.call(accounts[1], 99999999999999999999999);
+      return tokenInstance.transfer.call(accounts[1], 999999999);
     }).then(assert.fail).catch(function(error) {
       assert(error.message.indexOf('revert') >= 0, 'error message must contain revert');
       return tokenInstance.transfer.call(accounts[1], 250000, { from: accounts[0] });
